@@ -1,15 +1,15 @@
 import requests
-from Tkinter import Tk
+#from Tkinter import Tk
 import os
-import sys
+#import sys
 
 #from ui import Ui_Form 
 
-from lxml import etree
+#from lxml import etree
 import re
 import string
-from urllib2 import Request, urlopen, URLError
-from TableParser import TableParser
+#from urllib2 import Request, urlopen, URLError
+#from TableParser import TableParser
 from time import sleep
 
 def addToClipBoard(text):
@@ -46,8 +46,25 @@ def Main_Loop():
 
 
 
+if __name__ == "__main__":
+	while True: 
+		Main_Loop()
+		sleep(10)
+		#r = requests.get('http://makemehost.com/refresh/divGames-table-all.php')
+		#print r.text
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
-
+# Deprecated Stuff
+'''
 def Magic():
 	outputGames = "1"
 	url_addr ='http://makemehost.com/refresh/divGames-table-all.php'
@@ -105,9 +122,4 @@ def Magic():
 				for pref in prefGames: 
 					print pref
 
-if __name__ == "__main__":
-	while True: 
-		Main_Loop()
-		sleep(10)
-		#r = requests.get('http://makemehost.com/refresh/divGames-table-all.php')
-		#print r.text
+'''
