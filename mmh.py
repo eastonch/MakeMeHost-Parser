@@ -6,6 +6,7 @@ from time import sleep
 from Tkinter import *
 
 #Def Vars 
+win=Tk()
 outputGames = []
 url = "http://makemehost.com/refresh/parse.php"
 debug = True
@@ -14,11 +15,16 @@ def clearBox(listybox):
 	for i, listboxentry in enumerate(listybox.get(0, END)):
 		listybox.delete(0, END)
 
+def sort(someGameSet):
+	unorderset = set()
+
+
 def countBox(listybox):
 	count = 0
 	for i in enumerate(listybox.get(0, END)):
 		count = count + 1
 	return int(count)
+
 def doRefresh():
 	print "Before clearing.... {}".format(countBox(lb))
 	clearBox(lb)
@@ -27,21 +33,18 @@ def doRefresh():
 	refreshed = refresh()
 	if not refreshed: 
 		print "[!] Failed to connect, check net and try again"
+		lb.insert(START, "Failure to connect...")
 	else: 
 		resp = refreshed.split("\n")
 		for line in resp:
-			if line is "<br />":
-				print "[#] Skipping break line"
-				pass
-			else:	
-				linec = line.split(",")
-				if len(linec) is 4:
-					outputGames.append(linec)
-	for game in outputGames:
-		gameSplit = str(game).split(",")
-		#print "{}{}".format(game[1], game[2])
-		addToLB(game[1], game[2])
-	addToLB("magical", "something==========================================================")
+			linec = line.split(",")
+			if len(linec) is 4:
+				outputGames.append(linec)
+		for game in outputGames:
+			gameSplit = str(game).split(",")
+			#print "{}{}".format(game[1], game[2])
+			addToLB(game[1], game[2])
+		addToLB("magical", "something==========================================================")
 
 def refresh():
 	print "[+] Refreshing available games"
@@ -92,20 +95,26 @@ def Main_Loop():
 
 
 
-win=Tk()
-refresbut = Button(win, command=doRefresh).pack()
-lb = Listbox(win, height=15, width=60)
-lb.pack()
-lb.insert(END, "somenettry")
-lb.insert(END, "somenettry1")
-win.mainloop()
+
+
+#debug 
+
+
+
+
 if __name__ == "__main__":
-	while True: 
-		print "[+] Begin!"
-		Main_Loop()
-		print "[+] Done, Sleeping 10..."
-		print "="*25
-		sleep(10)
+	refreshButton = Button(win, text="Refresh!", command=doRefresh).pack()
+	lb = Listbox(win, height=30, width=60)
+	lb.pack()
+	lb.insert(END, "FOO")
+	lb.insert(END, "BAR")
+	win.mainloop()
+	# while True: 
+	# 	print "[+] Begin!"
+	# 	Main_Loop()
+	# 	print "[+] Done, Sleeping 10..."
+	# 	print "="*25
+	# 	sleep(10)
 '''
 refreshed = refresh()
 if !refreshed: 
