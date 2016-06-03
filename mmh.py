@@ -44,7 +44,6 @@ def doRefresh():
 			gameSplit = str(game).split(",")
 			#print "{}{}".format(game[1], game[2])
 			addToLB(game[1], game[2])
-		addToLB("magical", "something==========================================================")
 
 def refresh():
 	print "[+] Refreshing available games"
