@@ -56,13 +56,27 @@ def refresh():
 		print "[!] Could not Connect to MMH"
 		return False
 
-def UpdateGames():
-	getGames()
-	win.after(5000, UpdateGames)
+
 
 def addToLB(game, players):
+	result = 0
+	if re.match("[0-9]?[0-9]\/[0-9]?[0-9]", players):
+		in1 = players.split("/")
+		num1 = float(in1[0])
+		num2 = float(in1[1])
+		result = num1 / num2 * 100
+		if debug:
+			print "[#]EVAL {} / {} * 100 == {}".format(num1, num2, result)
+	else:
+		print "Major Error..."
+		pass
 	lb.insert(END, "{} | {}".format(game, players))
-
+	if result > 80:
+		lb.itemconfig(END, bg="green") 
+	elif result > 60:
+		lb.itemconfig(END, bg="yellow")  
+	elif result > 30:
+	 	lb.itemconfig(END, bg="teal") 
 
 def addToClipBoard(text):
 	text.strip(' \t\n\r')
@@ -109,28 +123,3 @@ if __name__ == "__main__":
 	lb.insert(END, "FOO")
 	lb.insert(END, "BAR")
 	win.mainloop()
-	# while True: 
-	# 	print "[+] Begin!"
-	# 	Main_Loop()
-	# 	print "[+] Done, Sleeping 10..."
-	# 	print "="*25
-	# 	sleep(10)
-'''
-refreshed = refresh()
-if !refreshed: 
-	print "[!] Failed to connect, check net and try again"
-else: 
-	resp = refreshed.split("\n")
-	for line in resp:
-		if line is "<br />":
-			if debug:
-				print "[#] Skipping break line"
-				pass
-			else:
-				linec = line.split(",")
-				if len(linec) is 4:
-					outputGames.append(linec)
-
-
-def
-''' 
