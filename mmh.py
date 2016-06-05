@@ -11,11 +11,13 @@ outputGames = []
 url = "http://makemehost.com/refresh/parse.php"
 debug = True
 
-def clearBox(listybox):
-	for i, listboxentry in enumerate(listybox.get(0, END)):
-		listybox.delete(0, END)
+def clearBox():
+#	for i in countBox(listybox):
+	lb.delete(0, countBox(lb))
+	lbFull.delete(0, countBox(lbFull))
+	#return listybox
 
-def sort(someGameSet):
+def sortList(someGameSet):
 	unorderset = set()
 
 
@@ -23,14 +25,16 @@ def countBox(listybox):
 	count = 0
 	for i in enumerate(listybox.get(0, END)):
 		count = count + 1
+	print count
 	return int(count)
 
 def doRefresh():
 	print "Before clearing.... {}".format(countBox(lb))
-	clearBox(lb)
-	lb.update_idletasks()
+	clearBox()
 	print "After Clearing.... {}".format(countBox(lb))
 	refreshed = refresh()
+	lb.update_idletasks()
+	lbFull.update_idletasks()
 	if not refreshed: 
 		print "[!] Failed to connect, check net and try again"
 		lb.insert(START, "Failure to connect...")
@@ -64,14 +68,15 @@ def addToLB(game, players):
 		num1 = float(in1[0])
 		num2 = float(in1[1])
 		result = num1 / num2 * 100
-		if debug:
-			print "[#]EVAL {} / {} * 100 == {}".format(num1, num2, result)
+		#if debug:
+			#print "[#]EVAL {} / {} * 100 == {}".format(num1, num2, result)
 	else:
 		print "Major Error..."
 		pass
 	lb.insert(END, "{} | {}".format(game, players))
 	if result > 80:
 		lb.itemconfig(END, bg="green") 
+		lbFull.insert(END, "{} | {}".format(game, players))
 	elif result > 60:
 		lb.itemconfig(END, bg="yellow")  
 	elif result > 30:
@@ -117,8 +122,15 @@ def Main_Loop():
 
 if __name__ == "__main__":
 	refreshButton = Button(win, text="Refresh!", command=doRefresh).pack()
+	l1 = Label(win, text="All Games")
+	l1.pack()
 	lb = Listbox(win, height=30, width=60)
 	lb.pack()
+	
+	l2 = Label(win, text="Games Almost Full")
+	l2.pack()
+	lbFull = Listbox(win, height=30, width=60)
+	lbFull.pack()
 	lb.insert(END, "FOO")
 	lb.insert(END, "BAR")
 	win.mainloop()
