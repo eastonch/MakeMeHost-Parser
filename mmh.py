@@ -11,13 +11,21 @@ outputGames = []
 url = "http://makemehost.com/refresh/parse.php"
 debug = False
 
+allGames = StringVar()
+def countBox(givenLb):
+	count = 0
+	for i in enumerate(givenLb.get(0, END)):
+		if debug:
+			print "found one"
+		count = count + 1
+	if debug: 
+		print count
+	return int(count)
+
 def doRefresh():
 	lb.delete(0, END)
 	lbFull.pack()
 	lbFull.delete(0, END)
-	#print "Before clearing.... {}".format(countBox(lb))
-	#clearBox()
-	#print "After Clearing.... {}".format(countBox(lb))
 	refreshed = refresh()
 	if not refreshed: 
 		print "[!] Failed to connect, check net and try again"
@@ -32,6 +40,7 @@ def doRefresh():
 			gameSplit = str(game).split(",")
 			#print "{}{}".format(game[1], game[2])
 			addToLB(game[1], game[2])
+	allGames.set("Current Games: {}".format(countBox(lb)))
 
 def refresh():
 	print "[+] Refreshing available games"
@@ -75,8 +84,7 @@ def addToClipBoard(text):
 
 if __name__ == "__main__":
 	refreshButton = Button(win, text="Refresh!", command=doRefresh).pack()
-	l1 = Label(win, text="All Games")
-	l1.pack()
+	l1 = Label(win, textvariable=allGames).pack()
 	lb = Listbox(win, height=30, width=60)
 	lb.pack()
 	
