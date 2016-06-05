@@ -9,32 +9,16 @@ from Tkinter import *
 win=Tk()
 outputGames = []
 url = "http://makemehost.com/refresh/parse.php"
-debug = True
-
-def clearBox():
-#	for i in countBox(listybox):
-	lb.delete(0, countBox(lb))
-	lbFull.delete(0, countBox(lbFull))
-	#return listybox
-
-def sortList(someGameSet):
-	unorderset = set()
-
-
-def countBox(listybox):
-	count = 0
-	for i in enumerate(listybox.get(0, END)):
-		count = count + 1
-	print count
-	return int(count)
+debug = False
 
 def doRefresh():
-	print "Before clearing.... {}".format(countBox(lb))
-	clearBox()
-	print "After Clearing.... {}".format(countBox(lb))
+	lb.delete(0, END)
+	lbFull.pack()
+	lbFull.delete(0, END)
+	#print "Before clearing.... {}".format(countBox(lb))
+	#clearBox()
+	#print "After Clearing.... {}".format(countBox(lb))
 	refreshed = refresh()
-	lb.update_idletasks()
-	lbFull.update_idletasks()
 	if not refreshed: 
 		print "[!] Failed to connect, check net and try again"
 		lb.insert(START, "Failure to connect...")
@@ -68,8 +52,8 @@ def addToLB(game, players):
 		num1 = float(in1[0])
 		num2 = float(in1[1])
 		result = num1 / num2 * 100
-		#if debug:
-			#print "[#]EVAL {} / {} * 100 == {}".format(num1, num2, result)
+		if debug:
+			print "[#]EVAL {} / {} * 100 == {}".format(num1, num2, result)
 	else:
 		print "Major Error..."
 		pass
@@ -85,39 +69,8 @@ def addToLB(game, players):
 def addToClipBoard(text):
 	text.strip(' \t\n\r')
 	text = text.split('|')
-    #command = 'echo {}| clip'.format(text[1])
-    #os.system(command)
-
-
-def Main_Loop():
-	print "[+] Starting...."
-	outputGames = []
-	r = requests.get(url)
-	if r.status_code == 200:
-		resp = r.text.split("\n")
-		for line in resp: 
-			if line is "<br />": 
-				pass
-			else:
-				linec = line.split(",")
-				if len(linec) is 4:
-					outputGames.append(linec)
-		for game in outputGames:
-			if re.match("[0-9].*\/[0-9].",game[2]): 
-					num = game[2].split('/')
-					if int(num[0]) is 0: 
-						pass
-
-					else:
-						print "{} ====== {}".format(game[1], game[2])
-
-
-
-
-
-#debug 
-
-
+	command = 'echo {}| clip'.format(text[1])
+	os.system(command)
 
 
 if __name__ == "__main__":
@@ -131,6 +84,63 @@ if __name__ == "__main__":
 	l2.pack()
 	lbFull = Listbox(win, height=30, width=60)
 	lbFull.pack()
-	lb.insert(END, "FOO")
-	lb.insert(END, "BAR")
+	if not debug: # change this 
+		lb.insert(END, "FOO")
+		lb.insert(END, "OOF")
+		lbFull.insert(END, "BAR")
+		lbFull.insert(END, "RAB")
+	else:
+		lb.insert(END, "Press Refresh!")
+		lbFull.insert(END, "Waiting for refresh...")
 	win.mainloop()
+
+
+
+	# DEPRECATED
+# def Main_Loop():
+# 	print "[+] Starting...."
+# 	outputGames = []
+# 	r = requests.get(url)
+# 	if r.status_code == 200:
+# 		resp = r.text.split("\n")
+# 		for line in resp: 
+# 			if line is "<br />": 
+# 				pass
+# 			else:
+# 				linec = line.split(",")
+# 				if len(linec) is 4:
+# 					outputGames.append(linec)
+# 		for game in outputGames:
+# 			if re.match("[0-9].*\/[0-9].",game[2]): 
+# 					num = game[2].split('/')
+# 					if int(num[0]) is 0: 
+# 						pass
+
+# 					else:
+# 						print "{} ====== {}".format(game[1], game[2])
+
+
+def clearBox():
+#	for i in countBox(listybox):
+	for i in enumerate(lb.get(0, END)): 
+		lb.delete(0, END)
+		print i
+		lb.update_idletasks()
+	for i in enumerate(lbFull.get(0, END)):
+		lbFull.delete(0, END)
+		print i
+		lbFull.update_idletasks()
+	#return listybox
+
+def countBox(listybox):
+	count = 0
+	for i in enumerate(lb.get(0, END)):
+		print "Found one"
+		count = count + 1
+	print count
+	return int(count)
+
+
+def sortList(someGameSet):
+	unorderset = set()
+
