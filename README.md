@@ -17,9 +17,17 @@ Currently this will only show games that are hosted by ENT Gaming, MakeMeHost an
 
 
 # Future Developments
-* *Tkinter GUI 
+* *Tkinter GUI
 * Ability to Copy / Paste / Modify clipboard
 * Ability to set a trigger / alert for certain game types using Regex input perhaps? 
 * Ability to sort, filter, groups for DOTA, LEGION, etc. 
-* Optional multi-realm search (Garena, Legion TD)
+* Optional multi-realm search (Garena, Legion TD) 
 * 
+
+# Version Notes 
+
+Version 0.1 "iseedeadpeople":
+Inital working compilable version of the parser. 
+
+[Private]
+
