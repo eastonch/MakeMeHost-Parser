@@ -12,8 +12,13 @@ url = "http://makemehost.com/refresh/parse.php"
 debug = False
 
 allGames = StringVar()
+
+def version():
+	print "<<< MakeMeHost-Parser v0.1 Christopher Easton @_ChrisTux, eastonch@gmail.com >>>"
+
 def countBox(givenLb):
 	count = 0
+	print count
 	for i in enumerate(givenLb.get(0, END)):
 		if debug:
 			print "found one"
@@ -24,7 +29,8 @@ def countBox(givenLb):
 
 def doRefresh():
 	lb.delete(0, END)
-	lbFull.pack()
+	ClearL()
+	ClearF()
 	lbFull.delete(0, END)
 	refreshed = refresh()
 	if not refreshed: 
@@ -52,7 +58,11 @@ def refresh():
 		print "[!] Could not Connect to MMH"
 		return False
 
+def ClearL():
+	lb.delete(0, END)
 
+def ClearF():
+	lbFull.delete(0, END)
 
 def addToLB(game, players):
 	result = 0
@@ -67,13 +77,18 @@ def addToLB(game, players):
 		print "Major Error..."
 		pass
 	lb.insert(END, "{} | {}".format(game, players))
+	care = False
 	if result > 80:
 		lb.itemconfig(END, bg="green") 
-		lbFull.insert(END, "{} | {}".format(game, players))
+		care = True
 	elif result > 60:
-		lb.itemconfig(END, bg="yellow")  
+		lb.itemconfig(END, bg="yellow")
+		care = True
 	elif result > 30:
 	 	lb.itemconfig(END, bg="teal") 
+
+	if care:
+		lbFull.insert(END, "{} | {}".format(game, players))
 
 def addToClipBoard(text):
 	text.strip(' \t\n\r')
@@ -83,12 +98,16 @@ def addToClipBoard(text):
 
 
 if __name__ == "__main__":
+	version()
+	if debug:
+		print "DEBUG MODE ENABLED"
 	refreshButton = Button(win, text="Refresh!", command=doRefresh).pack()
+	Clearer = Button(win, text="Clear!", command=ClearL).pack()
 	l1 = Label(win, textvariable=allGames).pack()
 	lb = Listbox(win, height=30, width=60)
 	lb.pack()
 	
-	l2 = Label(win, text="Games Almost Full")
+	l2 = Label(win, text="Games Of Interest")
 	l2.pack()
 	lbFull = Listbox(win, height=30, width=60)
 	lbFull.pack()
